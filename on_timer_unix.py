@@ -4,6 +4,14 @@ import os
 import sys
 
 
+counter = -3600
+running = False
+welcome_text = 'On Timer!'
+stars = '--:--:--'
+zeroes = datetime.fromtimestamp(counter).strftime("%H:%M:%S")
+save_log = []
+
+
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
@@ -12,13 +20,6 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
-
-counter = -3600
-running = False
-welcome_text = 'On Timer!'
-stars = '--:--:--'
-zeroes = datetime.fromtimestamp(counter).strftime("%H:%M:%S")
-save_log = []
 
 if os.path.exists('history.txt'):
     with open('history.txt', 'r') as f:
@@ -45,7 +46,6 @@ def counter_label(widget):
     count()
 
 
-# start function of the stopwatch
 def Start(widget):
     global running
     running = True
@@ -55,7 +55,6 @@ def Start(widget):
     reset['state'] = 'normal'
 
 
-# Stop function of the stopwatch
 def Stop():
     global running
     start['state'] = 'normal'
@@ -64,19 +63,16 @@ def Stop():
     running = False
 
 
-# Reset function of the stopwatch
 def Reset(widget):
     global counter
     history.insert(0, datetime.utcnow().strftime("%D") + ': ' + datetime.fromtimestamp(counter).strftime("%H:%M:%S"))
     save_log.append(datetime.utcnow().strftime("%D") + ': ' + datetime.fromtimestamp(counter).strftime("%H:%M:%S"))
     counter = -3600
 
-    # If rest is pressed after pressing stop.
     if running == False:
         reset['state'] = 'disabled'
         widget['text'] = zeroes
 
-    # If reset is pressed while the stopwatch is running.
     else:
         widget['text'] = stars
 
@@ -91,8 +87,6 @@ root = Tkinter.Tk()
 root.title("On Timer")
 img = Tkinter.PhotoImage(file=resource_path('wall-clock.png'))
 root.iconphoto(False, img)
-# root.iconbitmap(resource_path('icon.ico'))
-# Fixing the window size.
 root.minsize(width=250, height=70)
 title_label = Tkinter.Label(root, text="On Timer!", fg="black", font="Verdana 10 bold")
 title_label.pack()
