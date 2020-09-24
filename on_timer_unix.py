@@ -13,7 +13,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-counter = 0
+counter = -3600
 running = False
 welcome_text = 'On Timer!'
 stars = '--:--:--'
@@ -31,7 +31,7 @@ def counter_label(widget):
     def count():
         if running:
             global counter
-            if counter == 0:
+            if counter == -3600:
                 display = stars
             else:
                 tt = datetime.fromtimestamp(counter)
@@ -69,7 +69,7 @@ def Reset(widget):
     global counter
     history.insert(0, datetime.utcnow().strftime("%D") + ': ' + datetime.fromtimestamp(counter).strftime("%H:%M:%S"))
     save_log.append(datetime.utcnow().strftime("%D") + ': ' + datetime.fromtimestamp(counter).strftime("%H:%M:%S"))
-    counter = 0
+    counter = -3600
 
     # If rest is pressed after pressing stop.
     if running == False:
